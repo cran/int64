@@ -1,0 +1,290 @@
+\documentclass[10pt]{article}
+%\VignetteIndexEntry{int64}
+\usepackage{vmargin}
+\setmargrb{0.75in}{0.75in}{0.75in}{0.75in}
+\usepackage{color,alltt}
+\usepackage[authoryear,round,longnamesfirst]{natbib}
+
+\usepackage[colorlinks]{hyperref}
+\definecolor{link}{rgb}{0,0,0.3}	%% next few lines courtesy of RJournal.sty
+\hypersetup{
+    colorlinks,%
+    citecolor=link,%
+    filecolor=link,%
+    linkcolor=link,%
+    urlcolor=link
+}
+
+\newcommand{\proglang}[1]{\textsf{#1}}
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+
+%% defined as a stop-gap measure til interaction with highlight is sorted out
+\newcommand{\hlboxlessthan}{   \hlnormalsizeboxlessthan}
+\newcommand{\hlboxgreaterthan}{\hlnormalsizeboxgreaterthan}
+\newcommand{\hlboxopenbrace}{  \hlnormalsizeboxopenbrace}
+\newcommand{\hlboxclosebrace}{ \hlnormalsizeboxclosebrace}
+\newcommand{\hlboxbacktick}{   \hlnormalsizeboxbacktick}
+\newcommand{\hlboxunderscore}{ \hlnormalsizeboxunderscore}
+
+<<echo=FALSE,print=FALSE>>=
+prettyVersion <- packageDescription("int64")$Version
+prettyDate <- format(Sys.Date(), "%B %e, %Y")
+@
+
+<<echo=FALSE>>=
+require( int64 )
+@
+
+\begin{document}
+
+\author{Romain Fran\c{c}ois - \texttt{romain@r-enthusiasts.com} }
+\title{int64 : 64 bits integer vectors}
+\date{\pkg{int64} version \Sexpr{prettyVersion}}
+
+\maketitle
+
+\begin{abstract}
+The \texttt{int64} package adds 64 bit integer vectors to \texttt{R}. 
+The package provides the \texttt{int64} and \texttt{uint64} classes for
+signed and unsigned integer vectors. This project has been 
+sponsored by the Google Open Source Programs Office. 
+\end{abstract}
+
+\section{Background}
+
+Integers in \texttt{R} are represented internally as 32 bit \texttt{int}. 
+Aplications now require larger ranges of values to represent large quantities. 
+This package exposes C++ types \texttt{int64\_t} and \texttt{uint64\_t}
+to \texttt{R} for this purpose. The table~\ref{limits} shows the limits of these
+types. 
+               
+\begin{table}[h]
+\centering
+\begin{tabular}{ccrr}
+\hline
+C++ type & R type & \multicolumn{1}{c}{min} & \multicolumn{1}{c}{max} \\
+\hline
+\texttt{int} & \texttt{integer} & 
+    \texttt{\Sexpr{numeric_limits("integer")[1L]}} & 
+    \texttt{\Sexpr{numeric_limits("integer")[2L]}} \\
+\texttt{int64\_t} & \texttt{int64} & 
+    \texttt{\Sexpr{as.character(numeric_limits("int64")[1L])}} & 
+    \texttt{\Sexpr{as.character(numeric_limits("int64")[2L])}} \\
+\texttt{uint64\_t} & \texttt{uint64} & 
+    \texttt{\Sexpr{as.character(numeric_limits("uint64")[1L])}} & 
+    \texttt{\Sexpr{as.character(numeric_limits("uint64")[2L])}} \\
+\hline
+\end{tabular}
+\caption{\label{limits}Numeric limits of integer types}
+\end{table}
+
+
+\section{Usage}
+
+This section shows a few examples on how to use the package. 
+
+<<>>=
+# create a new int64 vector
+x <- int64( 4 )
+
+# set a subset of values
+x[1:2] <- 1:2 # via integers
+x[3:4] <- c("123456789123456", "-9876543219876") # ... or characters
+x
+
+# convert integer or character vectors into int64 vectors
+x <- as.int64( 1:6 )
+x
+y <- as.int64( c("-1234", "1234" ) )
+y
+
+# create a data frame with a column of int64
+df <- data.frame( a = 1:4 )
+df$y <- as.int64( 1:4 )
+df
+@
+
+\section{The int64 and uint64 classes}
+
+\subsection{Class representation}
+
+Both \texttt{int64} and \texttt{uint64} are represented as lists of pairs of
+integers. 
+
+<<>>=
+str( as.int64( 1:2 ) )
+@
+
+Each int64 or uint64 number is represented as a couple of 32 bit integers. 
+Internally, the C++ code goes back and forth between the native representation
+of these numbers as C++ data types (\texttt{int64\_t} and \texttt{uint64\_t})
+and their representation as couples of 32 bit integers by splitting the 
+64 bits. 
+
+For example, the \texttt{int64\_t} value (-123) is represented in memory as: 
+
+\vspace{1em}
+
+\begin{tabular}{|p{1em}cp{1em}|}
+\hline
+& \texttt{\Sexpr{binary( as.int64( "-123" ))@data}} & \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+These 64 bits are split into the two following chunks: 
+
+<<echo=FALSE,print=FALSE>>=
+first.int <- as.int64( "-123" )[[1L]][1L]
+first <- binary( first.int)@data
+second.int <- as.int64( "-123" )[[1L]][2L]
+second <- binary( second.int )@data
+@
+
+\vspace{1em}
+
+\begin{tabular}{|cp{.4em}|p{.4em}c|}
+\hline
+\texttt{\Sexpr{first}} & & & \texttt{\Sexpr{second}} \\
+\hline
+\end{tabular}
+
+\vspace{1em}
+
+The R representation of -123 is therefore composed by the two integers
+whose binary representation is above, i.e (\Sexpr{first.int},\Sexpr{second.int}).
+    This representation has been chosen against other alternatives to 
+allow these key requirements: 
+\begin{itemize}
+\item Data must be serializable
+\item int64 and uint64 vectors have to be usable of 
+columns of data frames. 
+\item The int64 and uint64 types must supposrt missing values (NA)
+\end{itemize}
+            
+\subsection{Creating new vectors}
+
+The functions \texttt{int64} and \texttt{uint64} can be used to create
+new vectors of signed or usigned 64 bit integers of the given length. These
+functions are similar to the usual \texttt{R} functions \texttt{numeric}, 
+\texttt{integer}, etc ...
+
+<<>>=
+int64(3)
+uint64(10)
+@
+
+\subsection{Converting integer or character vectors}
+
+The functions \texttt{as.int64} and \texttt{as.uint64} can be used
+to convert \texttt{integer} or \texttt{character} vectors into signed or 
+unsigned 64 bit integers. 
+
+<<>>=
+as.int64( 1:4 )
+as.uint64( c("123456789", "987654321987654321" ) )
+@
+   
+Internally \texttt{integer} vectors are converted using a reguar cast, and
+\texttt{character} vectors are converted using the \texttt{C} function
+\texttt{atol}. 
+
+\subsection{Subsetting}
+
+Extracting or setting subsets from a \texttt{int64} or \texttt{uint64}
+vector is similar to other vector classes in R. 
+
+<<>>=
+x <- as.int64( 1:4 )
+x[1:2]
+x[3:4] <- 5:6
+x
+@
+
+\subsection{Arithmetic operations}
+
+The \texttt{Arith} group generic is implemented for classes \texttt{int64}
+and \texttt{uint64}. 
+
+<<>>=
+x <- as.int64( 1:4 )
+x + 1L
+x - 1:2
+x * x
+x / 2L
+x %% 2L
+x %/% 2L
+@
+
+\subsection{Logical operations}
+
+The \texttt{Compare} group generic is implemented
+for classes \texttt{int64} and \texttt{uint64}. 
+
+<<>>=
+x <- as.int64( 1:5 )
+x < 3L
+x > 6L - x
+x != 3L
+x == 4L
+x <= 3L
+x >= 5L
+@
+
+\subsection{Summary operations}
+
+The \texttt{Summary} group generic is implemented
+for classes \texttt{int64} and \texttt{uint64}. 
+
+<<>>=
+x <- as.int64( 1:5 )
+min( x )
+max( x )
+range( x )
+prod( x )
+sum( x )
+any( x )
+all( x )
+@
+         
+
+\section{Binary representation}
+
+The \texttt{binary} generic function shows the bit representation
+of \texttt{numeric}, \texttt{integer}, \texttt{int64} and \texttt{uint64}. 
+                             
+<<>>=
+binary( 1:4 ) # integer
+binary( c(1.2, 1.3) ) # numeric
+binary( as.int64( 1:4 ) ) # signed 64 bit integer (int64)
+binary( as.uint64( 1:4 ) ) # unsigned 64 bit integer (uint64)
+@
+
+\section{Numeric limits and missing values}
+
+The \texttt{numeric\_limits} function gives the limits for 
+types \texttt{integer}, \texttt{int64}, \texttt{uint64}. 
+
+<<>>=
+numeric_limits( "integer" )
+numeric_limits( "int64" )
+numeric_limits( "uint64" )
+@
+
+int64 and uint64 classes support missing values using the same mechanism as
+R uses for integer vectors. 
+
+For signed 64 bit integer vectors (int64), NA is represented by the 
+value $-2^{63}$, hence the range of acceptable values is 
+
+$$[-2^{63}+1,2^{63}-1]$$ 
+
+For unsigned 64 bit integer vectors (uint64), NA is represented by the
+value $2^{64}-1$, hence the range of acceptable values is
+
+$$[0,2^{64}-2]$$
+
+
+\end{document}
+

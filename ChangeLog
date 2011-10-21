@@ -1,0 +1,20 @@
+2011-11-06  Romain Francois  <romain@r-enthusiasts.com>
+
+    * R/int64.R: adding names and names<- to show 64 big integer vectors with
+    names
+
+2011-11-01  Romain Francois  <romain@r-enthusiasts.com>
+
+    * R/int64.R: implementation of sort for int64 and uint64
+    
+    * inst/include/int64/LongVector.h: LongVector<>::sort
+
+2011-11-01  Romain Francois  <romain@r-enthusiasts.com>
+
+    * R/int64.R: implementation of unique for int64 and uint64
+    
+    * man/unique-methods.Rd: documentation of the above
+    
+    * inst/unitTests/runit.int64.R: unit tests for unique
+
+

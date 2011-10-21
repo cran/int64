@@ -1,0 +1,21 @@
+useDynLib( int64, .registration = TRUE )
+
+import( methods )
+
+exportClasses( "int64", "uint64", "binary" )
+
+exportMethods( 
+    show, length, "[", Arith, Compare, Summary, Math, Math2,  
+    as.character, names, "names<-", 
+    
+    binary, unique, sort, is.na, c
+)
+export( 
+    int64, uint64, as.int64, as.uint64, numeric_limits
+)
+S3method( format, int64 )
+S3method( format, uint64 )
+
+S3method( as.data.frame , int64 )
+S3method( as.data.frame , uint64 )
+
