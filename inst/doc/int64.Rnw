@@ -285,6 +285,20 @@ value $2^{64}-1$, hence the range of acceptable values is
 
 $$[0,2^{64}-2]$$
 
+\section{Reading 64 bit integers from files}
+
+The \texttt{int64} implements the necessary methods so that \texttt{read.csv}
+can read signed and unsigned 64 bit integers from files. 
+
+<<>>=
+tf <- tempfile()
+df <- data.frame( x = 1:10, y = 1:10, z = 1:10 )
+write.table( df, tf, sep = ",", row.names = FALSE )
+df <- read.csv( tf, colClasses = c("integer", "int64", "uint64" ) )
+df
+sapply( df, class )
+@
+
 
 \end{document}
 

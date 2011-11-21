@@ -67,7 +67,10 @@ Romain Francois. Sponsored the Google Open Source Programs Office.
 \seealso{
     \code{\link{as.uint64}} to convert character or integer vectors. 
     
-    \code{\link{int64}} to create new \code{\linkS4class{int64}} vectors of a given size. 
+    \code{\link{uint64}} to create new \code{\linkS4class{uint64}} vectors of a given size.
+    
+    The \code{\linkS4class{int64}} class to represent signed 64 bit 
+    integer vectors.
 }
 \examples{
     x <- uint64( 4 )

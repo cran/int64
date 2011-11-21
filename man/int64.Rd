@@ -22,7 +22,10 @@ Romain Francois, Sponsored by the Google Open Source Programs Office
 }
 \seealso{
     \code{\link{as.int64}} for converting integer or character vectors
-    into \code{\linkS4class{int64}} vectors
+    into \code{\linkS4class{int64}} vectors. 
+    
+    \code{\link{uint64}} for unsigned 64 bit integer vectors, i.e. of 
+    class \code{\linkS4class{uint64}}
 }
 \examples{
 x <- int64(10L)

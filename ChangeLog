@@ -1,3 +1,14 @@
+2011-11-23  Romain Francois  <romain@r-enthusiasts.com>
+
+    * R/int64.R: implementing setAs so that read.csv can handle colClasses = "int64"
+    and "uint64". Suggestion from Gabor Grothendieck on R-devel
+    
+    * R/int64.R: show.[u]int64 did not handle zero length vectors correctly
+    
+    * man/int64.Rd: cross links with uint64.Rd
+    
+    * man/uint64.Rd: cross links with int64.Rd
+
 2011-11-06  Romain Francois  <romain@r-enthusiasts.com>
 
     * R/int64.R: adding names and names<- to show 64 big integer vectors with

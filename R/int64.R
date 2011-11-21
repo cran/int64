@@ -88,12 +88,16 @@ setMethod( "length", "uint64", function(x){
     length(x@.Data)
 } )
 show_int64 <- function(object){
-    if( is.null( object@NAMES ) ){
-        print( noquote( as.character( object ) ) )
-    } else {
-        x <- as.character( object )
-        names(x) <- object@NAMES
-        print(noquote(x))
+    if( !length(object)) {
+        writeLines( sprintf( "%s(0)", class(object) ) )
+    } else { 
+        if( is.null( object@NAMES ) ){
+            print( noquote( as.character( object ) ) )
+        } else {
+            x <- as.character( object )
+            names(x) <- object@NAMES
+            print(noquote(x))
+        }
     }
     invisible(object)
 } 
@@ -307,4 +311,15 @@ c_int64 <- function(as, ctor){
 setMethod( "c", "int64", c_int64( as.int64, int64 ) )
 setMethod( "c", "uint64", c_int64( as.uint64, uint64 ) )
 
+setAs("character", "int64", function(from) as.int64(from))
+setAs("character", "uint64", function(from) as.uint64(from))
+
+setAs("integer", "int64", function(from) as.int64(from))
+setAs("integer", "uint64", function(from) as.uint64(from))
+
+setAs("logical", "int64", function(from) as.int64(from))
+setAs("logical", "uint64", function(from) as.uint64(from))
+
+setAs("numeric", "int64", function(from) as.int64(from))
+setAs("numeric", "uint64", function(from) as.uint64(from))
 

@@ -138,3 +138,8 @@ test.dataframe <- function(){
     checkEquals( df$c[3:4], df$c[1:2] + 2L )
 }
 
+test.read.csv <- function(){
+    
+    
+}
+
