@@ -139,7 +139,14 @@ test.dataframe <- function(){
 }
 
 test.read.csv <- function(){
+    df <- data.frame( x = 1:10, y = 1:10, z = 1:10 )
+    tf <- tempfile()
+    write.table( df, tf, row.names = FALSE, sep = "," )
+    df <- read.csv( tf, header = TRUE, 
+        colClasses = c( "integer", "int64", "uint64" ) )
     
-    
+    checkEquals( df$x, 1:10 )
+    checkEquals( df$y, as.int64(1:10) )
+    checkEquals( df$z, as.uint64(1:10) )
 }
 

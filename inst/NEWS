@@ -1,4 +1,10 @@
-1.1.0   2011-yy-zz
+1.1.1   2011-11-27
+
+    o   str methods for [u]int64 classes. Requested by @hadleywickham
+    
+    o   log and log10 method for [u]int64 classes. Requested by @hadleywickham
+
+1.1.0   2011-11-24
 
     o   Implemented setAs so that read.csv can handle colClasses = "int64"
     and "uint64" using Gabor Grothendieck suggestion on R-devel

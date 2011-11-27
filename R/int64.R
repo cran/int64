@@ -323,3 +323,10 @@ setAs("logical", "uint64", function(from) as.uint64(from))
 setAs("numeric", "int64", function(from) as.int64(from))
 setAs("numeric", "uint64", function(from) as.uint64(from))
 
+str.int64 <- str.uint64 <- function(object, ...){
+    writeLines( sprintf( " %s [1:%d] %s ...", class(object), length(object), 
+        paste( as.character( head( object, 3 ) ), collapse = " " )
+    ) )
+}
+
+
