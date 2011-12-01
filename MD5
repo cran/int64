@@ -1,11 +1,10 @@
 202f81114893214fe076a3dc7f2936d9 *ChangeLog
-e18b2d46c08194bccdf26cc0ecc38132 *DESCRIPTION
+793e8e56a60a3dab89acd41d0af5441e *DESCRIPTION
 ec0dab9f4dbc31f23248e064de4b4750 *NAMESPACE
 e2b20ee2374adef9b8d2e35b21088ec8 *R/int64.R
 bfaea06c518cea5a14b494255d1f4c12 *inst/NEWS
-be10126c3c9ec29283004f5678d8ff17 *inst/doc/build.R
 a5ef93bd26d2947da854a7d685eea6d4 *inst/doc/int64.Rnw
-b6df84c80fa00bedb200d6bcc4f3c9d8 *inst/doc/int64.pdf
+39ff51af8d440147bc862eaf522b2a0b *inst/doc/int64.pdf
 329359223514fcae4f78306c8410fccb *inst/include/int64.h
 1e6c68713a8915b4eaef8eff5f2981fe *inst/include/int64/LongVector.h
 179205e75eb83a1c92e05673990ff35f *inst/include/int64/arith.h
@@ -17,9 +16,9 @@ ba7328bdd3f75c73d2a2c9fbf2cdfc76 *inst/include/int64/get_bits.h
 d14b131f7d16cbe80d87756004756902 *inst/include/int64/get_class.h
 096a0377b98cda9c78dc13ac6718d8b3 *inst/include/int64/get_long.h
 4f0a3fb16cf49da953b92c433fa16e51 *inst/include/int64/int2.h
-2d23cb24c636d70dd2823dfa016eb698 *inst/include/int64/int64.h
+6e38efe0fb656615f1f4b86f99bace11 *inst/include/int64/int64.h
 0a9536ae7b5237fa2c34c3c8d83fb42d *inst/include/int64/long_traits.h
-18e08adb3fc06f4f27e7b4c3c80886f5 *inst/include/int64/math.h
+f5285db4b84d95689c39e9990f4177d4 *inst/include/int64/math.h
 66b06e0ae7c6bd3b5a6136ea65a78b32 *inst/include/int64/read_string.h
 02d718588767dec109548677beb847f8 *inst/include/int64/read_string_forward.h
 c012b69d9547ae54fd1d558cc44df0e3 *inst/include/int64/routines.h
@@ -31,7 +30,7 @@ f28492e65e51d865497034a22a077ea7 *man/as.uint64.Rd
 87e8e12369cda981ffcbff1944a18c14 *man/binary-class.Rd
 a3c2dbd9fa9db038a6108fc8e443f8d3 *man/binary-methods.Rd
 47d9b1e33644a68a821cd4656e122d99 *man/int64-class.Rd
-4ed38db5470c57421ba9ad7a5cde5f5a *man/int64-package.Rd
+848f1273eda3466d00faf831c06dcd60 *man/int64-package.Rd
 83d1a8d85d3d7ba995e1f1fa62d72c8c *man/int64.Rd
 13945b4cac0dcec9412935bee3b62c3f *man/numeric_limits.Rd
 7a998dfe4fe6abf54bbe63a6e883b029 *man/sort-methods.Rd
@@ -40,6 +39,6 @@ a3c2dbd9fa9db038a6108fc8e443f8d3 *man/binary-methods.Rd
 bbe2cc89e11938a692bd3110e4324449 *man/unique-methods.Rd
 e87abaa47a2160ce692e7d5306dd2aa7 *src/Makevars
 e87abaa47a2160ce692e7d5306dd2aa7 *src/Makevars.win
-95a18d408f7da8ddbf8bd24b7a079419 *src/int64.cpp
+911fb44ffecb91fe582101dcc35b2d00 *src/int64.cpp
 2a6617e4ef79ab3a96bd9d53ec077a69 *src/int64_init.c
 4fd5a0fe161fa48793eeb0cc58d19cab *tests/doRUnit.R

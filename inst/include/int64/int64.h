@@ -23,7 +23,7 @@
 
 namespace Rint64{
     namespace internal {
-        bool int64_naflag = false ;
+        extern bool int64_naflag ;
     }
 }
 

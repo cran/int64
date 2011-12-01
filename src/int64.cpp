@@ -26,6 +26,8 @@
 namespace Rint64{
     
     namespace internal{
+  
+        bool int64_naflag = false ;
         
         SEXP int64_format_binary__standard(SEXP x){
             int n = Rf_length(x) ;

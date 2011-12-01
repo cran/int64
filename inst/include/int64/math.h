@@ -39,7 +39,7 @@ SEXP abs( SEXP x ){
     return res ;    
 }
 template <>
-SEXP abs<uint64_t>( SEXP x ){ return x ; }
+inline SEXP abs<uint64_t>( SEXP x ){ return x ; }
      
 template <typename LONG>
 SEXP sign( SEXP x){
